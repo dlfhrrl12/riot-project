@@ -27,6 +27,12 @@ export type ChampionDetail = {
       };
     }
   ];
+  info: {
+    attack: number;
+    defense: number;
+    magic: number;
+    difficulty: number;
+  };
 };
 
 type Key = "id" | "key" | "name" | "title" | "image";
