@@ -1,21 +1,15 @@
-import { BASE_URL } from "@/app/constants";
 import { Champion } from "@/types/Champion";
 import Image from "next/image";
 import Link from "next/link";
 
-interface ChampionCardProps {
-  id: string;
-  champion: Champion;
-}
-
-const ChampionCard = ({ id, champion }: ChampionCardProps) => {
+const ChampionCard = ({ champion }: { champion: Champion }) => {
   return (
     <Link
-      href={`/champions/${id}`}
+      href={`/champions/${champion.id}`}
       className="border rounded p-4 hover:shadow-lg relative"
     >
       <Image
-        src={`${BASE_URL.RIOT_IMAGE}/champion/${champion.image.full}`}
+        src={`https://ddragon.leagueoflegends.com/cdn/15.5.1/img/champion/${champion.image.full}`}
         className="mx-auto"
         alt={champion.name}
         width={100}

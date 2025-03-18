@@ -6,8 +6,8 @@ import rotation from "../public/rotation.webp";
 
 const navigation = [
   { imgSrc: champion, href: "/champions", name: "채피언 목록 보기" },
-  { imgSrc: item, href: "/items", name: "금주 로테이션 확인" },
-  { imgSrc: rotation, href: "/rotation", name: "아이템 목록 보기" },
+  { imgSrc: item, href: "/rotation", name: "금주 로테이션 확인" },
+  { imgSrc: rotation, href: "/items", name: "아이템 목록 보기" },
 ];
 
 export default function Home() {

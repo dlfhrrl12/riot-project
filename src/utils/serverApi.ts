@@ -1,40 +1,52 @@
-import { BASE_URL } from "@/app/constants";
-import { Champion, ChampionDetail } from "@/types/Champion";
-import { Item } from "@/types/Items";
+import { Champion } from "@/types/Champion";
 
-export const fetchItemList = async (): Promise<Record<string, Item>> => {
-  const res = await fetch(`${BASE_URL.RIOT_API}/item.json`);
+const BASE_URL = "https://ddragon.leagueoflegends.com/cdn/15.5.1/data/ko_KR";
 
-  if (!res.ok) throw new Error(`HTTP 오류: ${res.status}`);
-
-  const data = await res.json();
-  return data.data;
+export const fetchItemList = async () => {
+  const response = await fetch(`${BASE_URL}/item.json`, {
+    cache: "force-cache",
+  });
+  const data = await response.json();
+  return data;
 };
 
-export const fetchChampionList = async (): Promise<
-  Record<string, Champion>
-> => {
-  const res = await fetch(`${BASE_URL.RIOT_API}/champion.json`, {
+export const fetchChampions = async () => {
+  const response = await fetch(`${BASE_URL}/champion.json`, {
     next: { revalidate: 86400 },
   });
-  if (!res.ok) throw new Error(`HTTP 오류: ${res.status}`);
-
-  const data = await res.json();
-  return data.data;
+  const data = await response.json();
+  return data;
 };
 
-export const fetchChampionDetail = async (
-  id: string
-): Promise<Record<string, ChampionDetail>> => {
-  const res = await fetch(`${BASE_URL.RIOT_API}/champion/${id}.json`, {
+export const fetchChampionsDetail = async (id: string) => {
+  const response = await fetch(`${BASE_URL}/champion/${id}.json`, {
     cache: "no-store",
   });
-  const data = await res.json();
-  return data.data;
+  const data = await response.json();
+  return data;
 };
 
-export const getRotationChampionList = async (): Promise<Champion[]> => {
-  const res = await fetch("/api/rotation");
-  if (!res.ok) throw new Error("로테이션 API 호출 오류");
-  return res.json();
+export const getChampionRotation = async () => {
+  //여기에서 필터된애들을 리턴시켜주기
+  const response = await fetch("/api/rotation");
+  const { data } = await response.json();
+  const rotationId: number[] = data.freeChampionIds;
+
+  //챔피언목록
+  const { data: championsData } = await fetchChampionsForRotation();
+  const championsArr: Champion[] = Object.values(championsData);
+
+  //동일목록
+  const matchedChampions = championsArr.filter(function (item) {
+    if (rotationId.includes(Number(item.key))) {
+      return item;
+    }
+  });
+  return matchedChampions;
+};
+
+export const fetchChampionsForRotation = async () => {
+  const response = await fetch(`${BASE_URL}/champion.json`);
+  const data = await response.json();
+  return data;
 };

@@ -1,10 +1,13 @@
 export type Item = {
   name: string;
+  plaintext: string;
   image: {
     full: string;
-  };
-  gold: {
-    total: number;
-    sell: number;
+    sprite: string;
+    group: string;
+    x: number;
+    y: number;
+    w: number;
+    h: number;
   };
 };
