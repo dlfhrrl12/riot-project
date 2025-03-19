@@ -44,7 +44,7 @@
 - TailwindCSS를 사용하여 반응형 디자인을 적용
 
 
-## 🧶 기술 스택
+## 기술 스택
 <div align="left">
 
 ### Environment
